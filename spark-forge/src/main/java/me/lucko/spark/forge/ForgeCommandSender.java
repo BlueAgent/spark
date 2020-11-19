@@ -27,8 +27,6 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.rcon.IServer;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 
 import java.util.UUID;
@@ -62,8 +60,8 @@ public class ForgeCommandSender extends AbstractCommandSender<ICommandSource> {
 
     @Override
     public void sendMessage(Component message) {
-        IFormattableTextComponent component = ITextComponent.Serializer.getComponentFromJson(GsonComponentSerializer.gson().serialize(message));
-        super.delegate.sendMessage(component, Util.DUMMY_UUID);
+        ITextComponent component = ITextComponent.Serializer.fromJson(GsonComponentSerializer.gson().serialize(message));
+        super.delegate.sendMessage(component);
     }
 
     @Override

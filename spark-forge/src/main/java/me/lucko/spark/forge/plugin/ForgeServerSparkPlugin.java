@@ -41,9 +41,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -56,7 +56,7 @@ import java.util.stream.Stream;
 
 public class ForgeServerSparkPlugin extends ForgeSparkPlugin implements Command<CommandSource>, SuggestionProvider<CommandSource> {
 
-    public static void register(ForgeSparkMod mod, RegisterCommandsEvent event) {
+    public static void register(ForgeSparkMod mod, FMLServerStartingEvent event) {
         ForgeServerSparkPlugin plugin = new ForgeServerSparkPlugin(mod, ServerLifecycleHooks::getCurrentServer);
         plugin.enable();
 
@@ -64,7 +64,7 @@ public class ForgeServerSparkPlugin extends ForgeSparkPlugin implements Command<
         MinecraftForge.EVENT_BUS.register(plugin);
 
         // register commands & permissions
-        CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
+        CommandDispatcher<CommandSource> dispatcher = event.getCommandDispatcher();
         registerCommands(dispatcher, plugin, plugin, "spark");
         PermissionAPI.registerNode("spark", DefaultPermissionLevel.OP, "Access to the spark command");
     }
